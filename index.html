@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Me a Chai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f3e7e9 0%, #e3eeff 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .header h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #ff6f61;
+        }
+        .header p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .creator-profile {
+            margin-bottom: 30px;
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #ff6f61;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+        .profile-pic:hover {
+            transform: scale(1.05);
+        }
+        h2 {
+            font-size: 28px;
+            color: #333;
+        }
+        .donation-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+        .food-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        .food-item {
+            margin: 10px;
+        }
+        .btn {
+            background: #ff6f61;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 111, 97, 0.3);
+        }
+        .btn:hover {
+            background: #ff4f4f;
+            box-shadow: 0 6px 16px rgba(255, 79, 79, 0.4);
+            transform: translateY(-2px);
+        }
+        .custom-amount {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .custom-amount input {
+            padding: 12px;
+            border: 2px solid #ff6f61;
+            border-radius: 5px 0 0 5px;
+            width: calc(100% - 120px);
+            font-size: 16px;
+        }
+        .custom-amount .donate-btn {
+            border-radius: 0 5px 5px 0;
+            width: 120px;
+        }
+        .separator {
+            margin: 20px 0;
+            border: 1px solid #ff6f61;
+            width: 100%;
+        }
+        .qr-section {
+            margin-top: 30px;
+        }
+        .qr-section img {
+            width: 250px;
+            height: 250px;
+            margin: 20px 0;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+        .instruction {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+        footer {
+            margin-top: 40px;
+            font-size: 16px;
+            color: #333;
+        }
+        .update-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffeb3b;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Buy Me a Chai</h1>
+            <p>Support your favorite creators by buying them a chai! 🙏</p>
+        </div>
+        <div class="creator-profile">
+            <img src="https://krishanu.odoo.com/web/image/493-029aa950/Krishanu%20Naskar%20pfp.png" alt="Creator Profile" class="profile-pic"> <!-- replace with your profile pic location or link-->
+            <h2>Krishanu Naskar</h2>
+            <p>Minecraft Minecraft Developer</p> <!-- replace with any text you want -->
+            <p>Buy me a chai to support my work!</p> <!-- replace with any text you want -->
+        </div>
+        <div class="qr-section">
+            <h3>Scan to Pay via UPI</h3>
+            <div id="qrCode"></div>
+            <p class="instruction" style="display: none;">Open any UPI app (e.g., Google Pay, PhonePe, Paytm) and scan the QR code to pay!</p>
+        </div>
+        <div class="donation-section">
+            <h3>Select your favorite item or enter a custom amount</h3>
+            <div class="food-buttons">
+                <div class="food-item">
+                    <button class="btn" onclick="generateQRCode(10)">Chai - ₹10</button>
+                </div>
+                <div class="food-item">
+                    <button class="btn" onclick="generateQRCode(30)">Samosa - ₹30</button>
+                </div>
+                <div class="food-item">
+                    <button class="btn" onclick="generateQRCode(60)">Momo - ₹60</button>
+                </div>
+                <div class="food-item">
+                    <button class="btn" onclick="generateQRCode(120)">Biryani - ₹120</button>
+                </div>
+            </div>
+            <hr class="separator">
+            <div class="custom-amount">
+                <input type="number" id="customAmount" placeholder="Enter custom amount (₹)" min="1">
+                <button class="btn donate-btn" onclick="generateCustomQRCode()">Donate</button>
+            </div>
+        </div>
+        <footer>
+            <p>Thank you for your support! ❤️</p>
+        </footer>
+    </div>
+    <script>
+        function generateQRCode(amount) {
+            const upiID = "anuragamer0-1@okhdfcbank"; //replace with your upi id
+            const name = "Anuragamer"; //replace with your name
+            const note = "money for support"; 
+            const upiLink = `upi://pay?pa=${upiID}&pn=${name}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiLink)}&size=400x400&margin=10`;
+            document.getElementById("qrCode").innerHTML = `<img src="${qrCodeUrl}" alt="UPI QR Code">`;
+            document.querySelector('.instruction').style.display = 'block';
+            showUpdateMessage();
+        }
+        function showUpdateMessage() {
+            const message = document.createElement('div');
+            message.className = 'update-message';
+            message.innerText = 'QR Code updated! You can now scan to pay.';
+            document.body.appendChild(message);
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
+        }
+        function generateCustomQRCode() {
+            const amount = document.getElementById("customAmount").value;
+            if (amount && amount > 0) {
+                generateQRCode(amount);
+            } else {
+                alert("Please enter a valid amount!");
+            }
+        }
+    </script>
+</body>
+</html>
